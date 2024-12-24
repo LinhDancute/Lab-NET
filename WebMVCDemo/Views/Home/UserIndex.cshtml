@@ -1,0 +1,10 @@
+﻿<h3>User Index Page</h3>
+<br />
+@if (User.Identity.IsAuthenticated)
+{
+    @Html.ActionLink("Logout", "Logout", "Auth", new { }, new { @class = "btn btn-link" })
+}
+else
+{
+    @Html.ActionLink("Login", "Login", "Auth", new { }, new { @class = "btn btn-link" })
+}

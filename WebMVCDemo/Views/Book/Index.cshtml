@@ -1,0 +1,80 @@
+﻿@using Application.DTOs
+@model IEnumerable<Application.DTOs.BookDTO>
+
+<section class="container my-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">Book Management</h2>
+        <a asp-controller="Book" asp-action="Create" class="btn btn-success shadow-sm px-4">
+            Add New Book
+        </a>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+        <form asp-action="SearchName" asp-controller="Book" method="get" class="input-group shadow-sm">
+            <input type="text" name="name" class="form-control" placeholder="Search by book title..." />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    <!-- Book Table -->
+    <div class="table-responsive rounded">
+        <table class="table table-striped table-hover align-middle rounded overflow-hidden">
+            <thead class="bg-success text-white">
+            <tr>
+                <th class="py-3 px-4">Title</th>
+                <th class="py-3 px-4">Author</th>
+                <th class="py-3 px-4">Publisher</th>
+                <th class="py-3 px-4">Price</th>
+                <th class="py-3 px-4">Category</th>
+                <th class="text-center py-3 px-4">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var book in Model)
+                {
+                    <tr>
+                        <!-- Clickable Title for Details -->
+                        <td class="py-3 px-4">
+                            <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id" class="text-decoration-none text-primary">
+                                @book.Title
+                            </a>
+                        </td>
+                        <td class="py-3 px-4">@book.Author</td>
+                        <td class="py-3 px-4">@book.Publisher</td>
+                        <td class="py-3 px-4">@book.Price.ToString("C")</td>
+                        <td class="py-3 px-4">@book.CategoryName</td>
+                        <td class="text-center py-3 px-4">
+                            <!-- Edit Button -->
+                            <a asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-warning mx-1">
+                                Edit
+                            </a>
+                            <!-- Delete Button -->
+                            <form asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center py-5 text-muted">No books found.</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a asp-controller="Home" asp-action="AdminIndex" class="btn btn-success shadow-sm px-4">
+            Back
+        </a>
+    </div>
+</section>
